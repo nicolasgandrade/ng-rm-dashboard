@@ -1,0 +1,19 @@
+<div class="w-100 h-100 overflow-auto">
+  <ng-content select="list"></ng-content>
+
+  <div
+    class="w-100 h-100 d-flex flex-column justify-content-center align-items-center"
+  >
+    @if (loading) {
+      <app-loader />
+    }
+
+    @if (error && !loading) {
+      <app-error-state class="w-100 h-100" />
+    }
+
+    @if (!listLength && !loading && !error) {
+      <app-empty-state />
+    }
+  </div>
+</div>
