@@ -13,6 +13,13 @@ export default [
             '../../../features/episodes/containers/root-episodes/root-episodes.component'
           ).then((m) => m.RootEpisodesComponent),
       },
+      {
+        path: 'characters',
+        loadComponent: () =>
+          import(
+            '../../../features/characters/containers/root-characters/root-characters.component'
+          ).then((m) => m.RootCharactersComponent),
+      },
     ],
   },
 ] as Routes;
