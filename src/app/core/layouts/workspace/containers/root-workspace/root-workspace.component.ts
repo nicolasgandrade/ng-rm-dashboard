@@ -1,7 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { SidebarComponent } from '../../components/sidebar/sidebar.component';
 import { HeaderComponent } from '../../components/header/header.component';
-import { RouterModule } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-root-workspace',
@@ -10,4 +10,10 @@ import { RouterModule } from '@angular/router';
   templateUrl: './root-workspace.component.html',
   styleUrl: './root-workspace.component.scss',
 })
-export class RootWorkspaceComponent {}
+export class RootWorkspaceComponent {
+  router = inject(Router);
+
+  navigateToFeature(path: string) {
+    this.router.navigate(['w', path]);
+  }
+}
