@@ -1,5 +1,3 @@
-@import 'bs-variables';
-
 .dashboard-grid {
   display: grid;
   grid-template-rows: min-content 1fr;
@@ -9,19 +7,5 @@
 
   > header {
     grid-column: 1 / 3;
-  }
-
-  > aside {
-    width: 264px;
-
-    button {
-      background-color: transparent;
-      border: none;
-      box-shadow: $box-shadow;
-
-      &:hover {
-        background-color: white;
-      }
-    }
   }
 }
