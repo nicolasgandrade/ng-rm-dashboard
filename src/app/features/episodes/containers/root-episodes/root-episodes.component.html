@@ -1,1 +1,9 @@
-<app-list />
+<app-list
+  [error]="hasError()"
+  [loading]="isLoading()"
+  [listLength]="listItems()?.length"
+>
+  @for (item of listItems(); track item.id) {
+    <div>{{ item.name }}</div>
+  }
+</app-list>

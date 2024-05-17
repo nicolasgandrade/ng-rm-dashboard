@@ -4,8 +4,8 @@ import { HttpJsonOptions, OptionsPayload } from './http-service.model';
 export abstract class HttpService {
   private readonly baseUrl = environment.baseApi;
 
-  protected getBaseUrl(): string {
-    return this.baseUrl;
+  protected getFullUrl(path?: string): string {
+    return this.baseUrl + (!!path?.trim() ? `/${path}` : '');
   }
 
   protected getJsonOptions(args?: OptionsPayload): HttpJsonOptions {
