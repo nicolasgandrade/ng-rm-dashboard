@@ -1,7 +1,7 @@
-<div class="dashboard-grid">
+<div class="dashboard-grid overflow-hidden">
   <app-header />
   <app-sidebar (menuItemClicked)="navigateToFeature($event)" />
-  <main class="bg-light p-3">
+  <main class="bg-light overflow-auto">
     <router-outlet />
   </main>
 </div>

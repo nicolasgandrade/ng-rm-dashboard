@@ -1,9 +1,22 @@
-<app-list
-  [error]="hasError()"
-  [loading]="isLoading()"
-  [listLength]="listItems()?.length"
->
-  @for (item of listItems(); track item.id) {
-    <div>{{ item.name }}</div>
-  }
-</app-list>
+<div class="px-4 py-3">
+  <div class="mb-4">
+    <h1>Episódios</h1>
+    <p>
+      Confira os episódios já lançados pela Warner Bros. Television &copy; desde
+      2013 até hoje.
+    </p>
+  </div>
+  <app-list
+    [error]="hasError()"
+    [loading]="isLoading()"
+    [listLength]="listItems()?.length"
+  >
+    @for (item of listItems(); track item.id) {
+      <app-episode-card
+        [name]="item.name"
+        [episode]="item.episode"
+        [characters]="item.characters"
+      />
+    }
+  </app-list>
+</div>

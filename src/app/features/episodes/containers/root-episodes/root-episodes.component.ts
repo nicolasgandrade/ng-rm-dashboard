@@ -4,11 +4,12 @@ import { EpisodesStore } from '../../state/episodes.store';
 import { EpisodesService } from '../../services/episodes.service';
 import { HttpClientModule } from '@angular/common/http';
 import { toSignal } from '@angular/core/rxjs-interop';
+import { EpisodeCardComponent } from '../../components/episode-card/episode-card.component';
 
 @Component({
   selector: 'app-root-episodes',
   standalone: true,
-  imports: [ListComponent],
+  imports: [ListComponent, EpisodeCardComponent],
   providers: [EpisodesStore, EpisodesService, HttpClientModule],
   templateUrl: './root-episodes.component.html',
   styleUrl: './root-episodes.component.scss',
