@@ -2,7 +2,7 @@ import { ComponentStore } from '@ngrx/component-store';
 import { PageableResponse } from '../../../shared/models/pageable-response.model';
 import { Episode } from '../models/episode.model';
 import { pageableResponseInitialState } from '../../../shared/utils/pageable-response-initial-state.model';
-import { exhaustMap, finalize, map, tap } from 'rxjs';
+import { exhaustMap, finalize, map, of, tap } from 'rxjs';
 import { Injectable, inject } from '@angular/core';
 import { EpisodesService } from '../services/episodes.service';
 import { tapResponse } from '@ngrx/operators';
@@ -33,14 +33,16 @@ export class EpisodesStore extends ComponentStore<EpisodesState> {
     trigger$.pipe(
       tap(() => this.gettingEpisodes()),
       exhaustMap(() =>
-        this.episodesService.getEpisodes(this.state().currentPage + 1).pipe(
-          tapResponse(
-            (res) => {
-              this.getEpisodesSuccess(res);
-            },
-            () => this.getEpisodesFailure(),
-          ),
-        ),
+        !this.state().data.info.next && this.state().currentPage !== 0
+          ? of(this.getEpisodesFinished())
+          : this.episodesService.getEpisodes(this.state().currentPage + 1).pipe(
+              tapResponse(
+                (res) => {
+                  this.getEpisodesSuccess(res);
+                },
+                () => this.getEpisodesFailure(),
+              ),
+            ),
       ),
     ),
   );
@@ -53,16 +55,25 @@ export class EpisodesStore extends ComponentStore<EpisodesState> {
   private readonly getEpisodesSuccess = this.updater(
     (state, apiRes: PageableResponse<Episode>) => ({
       ...state,
-      currentPage: this.state().currentPage++,
+      currentPage: this.state().currentPage + 1,
       loading: false,
       error: false,
-      data: apiRes,
+      data: {
+        ...state.data,
+        ...apiRes,
+        results: [...state.data.results, ...apiRes.results],
+      },
     }),
   );
   private readonly getEpisodesFailure = this.updater((state) => ({
     ...state,
     loading: false,
     error: true,
+  }));
+  private readonly getEpisodesFinished = this.updater((state) => ({
+    ...state,
+    loading: false,
+    error: false,
   }));
 
   constructor() {

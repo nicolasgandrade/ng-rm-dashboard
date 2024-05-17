@@ -1,21 +1,19 @@
-<div class="w-100 h-100 overflow-auto">
+<div class="w-100 h-100">
   <ng-content></ng-content>
 
-  @if (!listLength) {
-    <div
-      class="w-100 h-100 d-flex flex-column justify-content-center align-items-center"
-    >
-      @if (loading) {
-        <app-loader />
-      }
+  <div
+    class="w-100 d-flex flex-column justify-content-center align-items-center"
+  >
+    @if (loading) {
+      <app-loader />
+    }
 
-      @if (error && !loading) {
-        <app-error-state class="w-100 h-100" />
-      }
+    @if (error && !loading) {
+      <app-error-state />
+    }
 
-      @if (!loading && !error) {
-        <app-empty-state />
-      }
-    </div>
-  }
+    @if (!listLength && !loading && !error) {
+      <app-empty-state />
+    }
+  </div>
 </div>
