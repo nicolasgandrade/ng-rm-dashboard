@@ -1,0 +1,26 @@
+<div class="card mb-3 w-100">
+  <div class="row g-0">
+    <div class="col-md-4 border-end">
+      <img
+        src="/assets/images/logo.png"
+        class="rounded-start object-fit-cover w-100 h-100"
+        style="max-height: 200px"
+        alt="..."
+      />
+    </div>
+    <div class="col-md-8">
+      <div class="card-body">
+        <h5 class="card-title">{{ name() }}</h5>
+        <p class="card-text">
+          O episódio
+          <q class="fst-italic">{{ name() }}</q>
+          , lançado em tal tal tal, conta com a presença de
+          {{ characters()?.length }} personagens do universo de Rick and Morty.
+        </p>
+        <p class="card-text">
+          <small class="text-body-secondary">{{ episode() }}</small>
+        </p>
+      </div>
+    </div>
+  </div>
+</div>

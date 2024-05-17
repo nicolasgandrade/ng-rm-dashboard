@@ -1,1 +1,31 @@
-<p>root-episodes works!</p>
+<div
+  #scrollable
+  class="px-4 py-3 h-100 overflow-auto"
+  infiniteScroll
+  [infiniteScrollThrottle]="1000"
+  [infiniteScrollContainer]="scrollable"
+  (scrolled)="fetchEpisodes()"
+>
+  <div class="mb-4">
+    <h1>Episódios</h1>
+    <p>
+      Confira os episódios já lançados pela Warner Bros&copy; desde 2013 até
+      hoje.
+    </p>
+  </div>
+  <div class="d-flex flex-column align-items-center">
+    <app-list
+      [error]="hasError()"
+      [loading]="isLoading()"
+      [listLength]="listItems()?.length"
+    >
+      @for (item of listItems(); track item.id) {
+        <app-episode-card
+          [name]="item.name"
+          [episode]="item.episode"
+          [characters]="item.characters"
+        />
+      }
+    </app-list>
+  </div>
+</div>
