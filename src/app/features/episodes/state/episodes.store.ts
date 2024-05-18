@@ -93,6 +93,7 @@ export class EpisodesStore extends ComponentStore<EpisodesState> {
   private readonly getEpisodesFailure = this.updater(
     (state, statusCode: HttpStatusCode) => ({
       ...state,
+      currentPage: this.state().filtering ? 0 : this.state().currentPage,
       loading: false,
       error: statusCode === HttpStatusCode.NotFound ? false : true,
       data: this.state().filtering
