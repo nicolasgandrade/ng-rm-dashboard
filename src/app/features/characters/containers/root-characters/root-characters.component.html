@@ -1,1 +1,32 @@
-<p>root-characters works!</p>
+<div
+  #scrollable
+  class="px-4 py-3 h-100 overflow-auto"
+  infiniteScroll
+  [infiniteScrollContainer]="scrollable"
+  [infiniteScrollThrottle]="1000"
+  (scrolled)="fetchCharacters()"
+>
+  <div class="mb-4">
+    <h1>Personagens</h1>
+    <p>
+      Explore o Multiverso de Personalidades: Todos os Personagens de Rick and
+      Morty em um único Lugar!
+    </p>
+  </div>
+  <div>
+    <app-list
+      [error]="hasError()"
+      [loading]="isLoading()"
+      [listLength]="listItems()?.length"
+    >
+      <div class="row">
+        @for (item of listItems(); track item.id) {
+          <app-character-card
+            class="col-12 col-md-6 col-lg-4 col-xl-3 col-huge-2 mb-3"
+            [character]="item"
+          />
+        }
+      </div>
+    </app-list>
+  </div>
+</div>
