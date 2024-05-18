@@ -1,4 +1,11 @@
-<div #scrollable class="px-4 py-3 h-100 overflow-auto">
+<div
+  #scrollable
+  class="px-4 py-3 h-100 overflow-auto"
+  infiniteScroll
+  [infiniteScrollContainer]="scrollable"
+  [infiniteScrollThrottle]="1000"
+  (scrolled)="fetchCharacters()"
+>
   <div class="mb-4">
     <h1>Personagens</h1>
     <p>

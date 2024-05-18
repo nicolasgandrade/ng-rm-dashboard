@@ -58,7 +58,11 @@ export class CharactersStore extends ComponentStore<CharactersState> {
       currentPage: this.state().currentPage + 1,
       loading: false,
       error: false,
-      data,
+      data: {
+        ...state.data,
+        ...data,
+        results: [...state.data.results, ...data.results],
+      },
     }),
   );
   private readonly getCharactersFailure = this.updater((state) => ({
