@@ -38,7 +38,9 @@ export class EpisodesStore extends ComponentStore<EpisodesState> {
         !!searchTerm.trim() ? this.filteringEpisodes() : this.gettingEpisodes(),
       ),
       exhaustMap((searchTerm) =>
-        !this.state().data.info.next && this.state().currentPage !== 0
+        !this.state().data.info.next &&
+        this.state().currentPage !== 0 &&
+        !this.state().filtering
           ? of(this.getEpisodesFinished())
           : this.episodesService
               .getEpisodes(this.state().currentPage + 1, searchTerm)

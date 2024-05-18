@@ -40,7 +40,9 @@ export class CharactersStore extends ComponentStore<CharactersState> {
           : this.gettingCharacters(),
       ),
       exhaustMap((searchTerm) =>
-        !this.state().data.info.next && this.state().currentPage !== 0
+        !this.state().data.info.next &&
+        this.state().currentPage !== 0 &&
+        !this.state().filtering
           ? of(this.getCharactersFinished())
           : this.charactersService
               .getCharacters(this.state().currentPage + 1, searchTerm)
