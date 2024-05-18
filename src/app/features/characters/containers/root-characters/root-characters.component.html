@@ -19,9 +19,12 @@
       [loading]="isLoading()"
       [listLength]="listItems()?.length"
     >
-      <div class="d-flex gap-3 flex-wrap">
+      <div class="row">
         @for (item of listItems(); track item.id) {
-          <app-character-card [character]="item" />
+          <app-character-card
+            class="col-12 col-md-6 col-lg-4 col-xl-3 col-huge-2 mb-3"
+            [character]="item"
+          />
         }
       </div>
     </app-list>
