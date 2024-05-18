@@ -4,11 +4,13 @@ import { PageableResponse } from '../../../shared/models/pageable-response.model
 import { Character } from '../models/character.model';
 import { pageableResponseInitialState } from '../../../shared/utils/pageable-response-initial-state.model';
 import { CharactesService } from '../services/characters.service';
-import { exhaustMap, of, tap } from 'rxjs';
+import { Observable, exhaustMap, of, tap } from 'rxjs';
 import { tapResponse } from '@ngrx/operators';
+import { HttpErrorResponse, HttpStatusCode } from '@angular/common/http';
 
 interface CharactersState {
   currentPage: number;
+  filtering: boolean;
   loading: boolean;
   error: boolean;
   data: PageableResponse<Character>;
@@ -16,6 +18,7 @@ interface CharactersState {
 
 const initialState: CharactersState = {
   currentPage: 0,
+  filtering: false,
   loading: false,
   error: false,
   data: pageableResponseInitialState,
@@ -29,28 +32,45 @@ export class CharactersStore extends ComponentStore<CharactersState> {
   public readonly isLoading$ = this.select(({ loading }) => loading);
   public readonly hasError$ = this.select(({ error }) => error);
 
-  readonly getCharacters$ = this.effect((trigger$) =>
-    trigger$.pipe(
-      tap(() => this.gettingCharacters()),
-      exhaustMap(() =>
+  readonly getCharacters$ = this.effect((searchTerm$: Observable<string>) =>
+    searchTerm$.pipe(
+      tap((searchTerm) =>
+        !!searchTerm.trim()
+          ? this.filteringCharacters()
+          : this.gettingCharacters(),
+      ),
+      exhaustMap((searchTerm) =>
         !this.state().data.info.next && this.state().currentPage !== 0
           ? of(this.getCharactersFinished())
           : this.charactersService
-              .getCharacters(this.state().currentPage + 1)
+              .getCharacters(this.state().currentPage + 1, searchTerm)
               .pipe(
                 tapResponse(
                   (res) => this.getCharactersSuccess(res),
-                  () => this.getCharactersFailure(),
+                  (error: HttpErrorResponse) =>
+                    this.getCharactersFailure(error.status),
                 ),
               ),
       ),
     ),
   );
 
-  private readonly gettingCharacters = this.updater((state) => ({
+  private readonly filteringCharacters = this.updater((state) => ({
     ...state,
+    currentPage: this.state().filtering ? this.state().currentPage : 0,
+    filtering: true,
     loading: true,
     error: false,
+  }));
+  private readonly gettingCharacters = this.updater((state) => ({
+    ...state,
+    currentPage: this.state().filtering ? 0 : this.state().currentPage,
+    filtering: false,
+    loading: true,
+    error: false,
+    data: this.state().filtering
+      ? pageableResponseInitialState
+      : this.state().data,
   }));
   private readonly getCharactersSuccess = this.updater(
     (state, data: PageableResponse<Character>) => ({
@@ -58,18 +78,26 @@ export class CharactersStore extends ComponentStore<CharactersState> {
       currentPage: this.state().currentPage + 1,
       loading: false,
       error: false,
-      data: {
-        ...state.data,
-        ...data,
-        results: [...state.data.results, ...data.results],
-      },
+      data:
+        this.state().filtering && this.state().currentPage === 0
+          ? data
+          : {
+              ...state.data,
+              ...data,
+              results: [...state.data.results, ...data.results],
+            },
     }),
   );
-  private readonly getCharactersFailure = this.updater((state) => ({
-    ...state,
-    loading: false,
-    error: true,
-  }));
+  private readonly getCharactersFailure = this.updater(
+    (state, statusCode: HttpStatusCode) => ({
+      ...state,
+      loading: false,
+      error: statusCode === HttpStatusCode.NotFound ? false : true,
+      data: this.state().filtering
+        ? pageableResponseInitialState
+        : this.state().data,
+    }),
+  );
   private readonly getCharactersFinished = this.updater((state) => ({
     ...state,
     loading: false,

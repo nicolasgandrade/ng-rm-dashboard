@@ -1,5 +1,5 @@
 <div class="dashboard-grid overflow-hidden">
-  <app-header />
+  <app-header [searchControl]="searchControl" />
   <app-sidebar (menuItemClicked)="navigateToFeature($event)" />
   <main class="bg-light overflow-hidden">
     <router-outlet />

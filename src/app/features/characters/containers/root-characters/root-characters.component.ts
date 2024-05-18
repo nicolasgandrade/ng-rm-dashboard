@@ -2,10 +2,11 @@ import { Component, OnInit, inject } from '@angular/core';
 import { ListComponent } from '../../../../shared/components/list/list.component';
 import { HttpClientModule } from '@angular/common/http';
 import { CharactersStore } from '../../state/characters.store';
-import { toSignal } from '@angular/core/rxjs-interop';
+import { toObservable, toSignal } from '@angular/core/rxjs-interop';
 import { CharactesService } from '../../services/characters.service';
 import { CharacterCardComponent } from '../../components/character-card/character-card.component';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
+import { GlobalSearchService } from '../../../../shared/services/global-search.service';
 
 @Component({
   selector: 'app-root-characters',
@@ -20,18 +21,21 @@ import { InfiniteScrollModule } from 'ngx-infinite-scroll';
   templateUrl: './root-characters.component.html',
   styleUrl: './root-characters.component.scss',
 })
-export class RootCharactersComponent implements OnInit {
+export class RootCharactersComponent {
   private readonly charactersStore = inject(CharactersStore);
+  private readonly globalSearchService = inject(GlobalSearchService);
 
-  isLoading = toSignal(this.charactersStore.isLoading$);
-  hasError = toSignal(this.charactersStore.hasError$);
-  listItems = toSignal(this.charactersStore.listItems$);
+  readonly isLoading = toSignal(this.charactersStore.isLoading$);
+  readonly hasError = toSignal(this.charactersStore.hasError$);
+  readonly listItems = toSignal(this.charactersStore.listItems$);
 
-  ngOnInit(): void {
-    this.fetchCharacters();
+  constructor() {
+    toObservable(this.globalSearchService.searchTerm).subscribe(() =>
+      this.fetchCharacters(),
+    );
   }
 
   fetchCharacters() {
-    this.charactersStore.getCharacters$();
+    this.charactersStore.getCharacters$(this.globalSearchService.searchTerm());
   }
 }
