@@ -1,4 +1,8 @@
-<div class="card shadow h-100 w-100" style="width: 18rem">
+<div
+  class="card shadow h-100 w-100 transition"
+  role="button"
+  (click)="openDetails.emit()"
+>
   <img [src]="character()?.image" class="card-img-top" alt="..." />
   <div
     class="text-center d-flex flex-column justify-content-between gap-3 h-100"
@@ -10,8 +14,8 @@
       <h4 class="card-title fw-bold mb-3">{{ character()?.name }}</h4>
       <p class="card-text text-secondary">
         {{ character()?.name }} é um personagem
-        {{ (character()?.gender || "unknown" | gender).toLowerCase() }}, vindo
-        de <q class="fst-italic">{{ character()?.location?.name }}</q
+        {{ (character()?.gender || "unknown" | gender).toLowerCase() }}, visto
+        por útlimo em <q class="fst-italic">{{ character()?.location?.name }}</q
         >.
       </p>
     </div>

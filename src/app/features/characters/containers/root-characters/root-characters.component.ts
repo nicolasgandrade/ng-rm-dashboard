@@ -1,4 +1,4 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { ListComponent } from '../../../../shared/components/list/list.component';
 import { HttpClientModule } from '@angular/common/http';
 import { CharactersStore } from '../../state/characters.store';
@@ -7,6 +7,9 @@ import { CharactesService } from '../../services/characters.service';
 import { CharacterCardComponent } from '../../components/character-card/character-card.component';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { GlobalSearchService } from '../../../../shared/services/global-search.service';
+import { Dialog } from '@angular/cdk/dialog';
+import { CharacterDetailsModalComponent } from '../../components/character-details-modal/character-details-modal.component';
+import { Character } from '../../models/character.model';
 
 @Component({
   selector: 'app-root-characters',
@@ -16,6 +19,7 @@ import { GlobalSearchService } from '../../../../shared/services/global-search.s
     HttpClientModule,
     CharacterCardComponent,
     InfiniteScrollModule,
+    CharacterDetailsModalComponent,
   ],
   providers: [CharactersStore, CharactesService],
   templateUrl: './root-characters.component.html',
@@ -24,6 +28,7 @@ import { GlobalSearchService } from '../../../../shared/services/global-search.s
 export class RootCharactersComponent {
   private readonly charactersStore = inject(CharactersStore);
   private readonly globalSearchService = inject(GlobalSearchService);
+  private readonly dialog = inject(Dialog);
 
   readonly isLoading = toSignal(this.charactersStore.isLoading$);
   readonly hasError = toSignal(this.charactersStore.hasError$);
@@ -37,5 +42,9 @@ export class RootCharactersComponent {
 
   fetchCharacters() {
     this.charactersStore.getCharacters$(this.globalSearchService.searchTerm());
+  }
+
+  openDetails(character: Character) {
+    this.dialog.open(CharacterDetailsModalComponent, { data: { character } });
   }
 }

@@ -11,3 +11,7 @@
 .rounded-bottom-end {
   border-radius: 0 0 $border-radius 0;
 }
+
+.card:hover {
+  scale: 1.005;
+}
