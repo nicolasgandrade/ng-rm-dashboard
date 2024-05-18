@@ -1,0 +1,13 @@
+@import "bs-variables";
+
+.bg-card-data {
+  background-color: #ec9b3b;
+}
+
+.rounded-bottom-start {
+  border-radius: 0 0 0 $border-radius;
+}
+
+.rounded-bottom-end {
+  border-radius: 0 0 $border-radius 0;
+}

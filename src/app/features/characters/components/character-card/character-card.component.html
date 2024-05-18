@@ -1,16 +1,45 @@
 <div class="card shadow h-100" style="width: 18rem">
   <img [src]="character()?.image" class="card-img-top" alt="..." />
-  <div class="card-body text-center">
-    <small class="text-warning text-uppercase fw-semibold">{{
-      character()?.species
-    }}</small>
-    <h4 class="card-title fw-bold mb-3">{{ character()?.name }}</h4>
-    <p class="card-text text-secondary">
-      {{ character()?.name }} é um personagem
-      {{ (character()?.gender || "unknown" | gender).toLowerCase() }}, vindo de
-      <q class="fst-italic">{{ character()?.location?.name }}</q
-      >.
-    </p>
-    <a href="#" class="btn btn-primary">Go somewhere</a>
+  <div
+    class="text-center d-flex flex-column justify-content-between gap-3 h-100"
+  >
+    <div class="p-3">
+      <small class="text-warning text-uppercase fw-semibold">{{
+        character()?.species
+      }}</small>
+      <h4 class="card-title fw-bold mb-3">{{ character()?.name }}</h4>
+      <p class="card-text text-secondary">
+        {{ character()?.name }} é um personagem
+        {{ (character()?.gender || "unknown" | gender).toLowerCase() }}, vindo
+        de <q class="fst-italic">{{ character()?.location?.name }}</q
+        >.
+      </p>
+    </div>
+    <div class="row mx-0 text-white">
+      <div
+        class="bg-card-data col col-md-4 border-end d-flex flex-column justify-content-between p-1 rounded-bottom-start"
+      >
+        <span class="fw-bold fs-4">
+          {{ character()?.episode?.length || "-" }}
+        </span>
+        <small>EPs</small>
+      </div>
+      <div
+        class="bg-card-data col col-md-4 border-end d-flex flex-column justify-content-between p-1"
+      >
+        <span class="fw-bold fs-4">
+          {{ character()?.status || "unknown" | status }}
+        </span>
+        <small>status</small>
+      </div>
+      <div
+        class="bg-card-data col col-md-4 d-flex flex-column justify-content-between p-1 rounded-bottom-end"
+      >
+        <span class="fw-bold fs-4">
+          {{ character()?.gender || "unknown" | genderAbbr }}
+        </span>
+        <small>Gênero</small>
+      </div>
+    </div>
   </div>
 </div>
