@@ -1,1 +1,20 @@
-<p>root-characters works!</p>
+<div #scrollable class="px-4 py-3 h-100 overflow-auto">
+  <div class="mb-4">
+    <h1>Personagens</h1>
+    <p>
+      Explore o Multiverso de Personalidades: Todos os Personagens de Rick and
+      Morty em um único Lugar!
+    </p>
+  </div>
+  <div>
+    <app-list
+      [error]="hasError()"
+      [loading]="isLoading()"
+      [listLength]="listItems()?.length"
+    >
+      @for (item of listItems(); track item.id) {
+        <div>{{ item.name }}</div>
+      }
+    </app-list>
+  </div>
+</div>
