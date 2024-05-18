@@ -9,10 +9,7 @@ import { Episode } from '../models/episode.model';
 export class EpisodesService extends HttpService {
   private readonly http = inject(HttpClient);
 
-  getEpisodes(
-    page: number,
-    name: string = '',
-  ): Observable<PageableResponse<Episode>> {
+  getEpisodes(page: number, name = ''): Observable<PageableResponse<Episode>> {
     const params = new HttpParams({
       fromObject: { page, name },
     });
