@@ -4,11 +4,12 @@ import { HttpClientModule } from '@angular/common/http';
 import { CharactersStore } from '../../state/characters.store';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { CharactesService } from '../../services/characters.service';
+import { CharacterCardComponent } from '../../components/character-card/character-card.component';
 
 @Component({
   selector: 'app-root-characters',
   standalone: true,
-  imports: [ListComponent, HttpClientModule],
+  imports: [ListComponent, HttpClientModule, CharacterCardComponent],
   providers: [CharactersStore, CharactesService],
   templateUrl: './root-characters.component.html',
   styleUrl: './root-characters.component.scss',

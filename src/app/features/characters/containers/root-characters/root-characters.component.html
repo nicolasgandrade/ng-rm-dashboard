@@ -12,9 +12,11 @@
       [loading]="isLoading()"
       [listLength]="listItems()?.length"
     >
-      @for (item of listItems(); track item.id) {
-        <div>{{ item.name }}</div>
-      }
+      <div class="d-flex gap-3 flex-wrap">
+        @for (item of listItems(); track item.id) {
+          <app-character-card [character]="item" />
+        }
+      </div>
     </app-list>
   </div>
 </div>

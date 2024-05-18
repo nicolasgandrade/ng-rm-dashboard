@@ -1,0 +1,16 @@
+<div class="card shadow" style="width: 18rem">
+  <img [src]="character()?.image" class="card-img-top" alt="..." />
+  <div class="card-body text-center">
+    <small class="text-warning text-uppercase fw-semibold">{{
+      character()?.species
+    }}</small>
+    <h4 class="card-title fw-bold mb-3">{{ character()?.name }}</h4>
+    <p class="card-text text-secondary">
+      {{ character()?.name }} é um personagem
+      {{ (character()?.gender || "unknown" | gender).toLowerCase() }}, vindo de
+      <q class="fst-italic">{{ character()?.location?.name }}</q
+      >.
+    </p>
+    <a href="#" class="btn btn-primary">Go somewhere</a>
+  </div>
+</div>
