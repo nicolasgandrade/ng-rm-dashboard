@@ -1,18 +1,17 @@
 <header
-  class="sticky-top bg-light-subtle d-flex justify-content-between align-items-center p-3 border-bottom"
+  class="sticky-top bg-light-subtle row justify-content-between align-items-center p-3 border-bottom"
 >
-  <div class="container-fluid">
-    <div class="fs-5 text-decoration-none text-dark" href="#">
-      Rick and Morty Dashboard
-    </div>
+  <div class="col-12 col-md-4 fs-5 text-decoration-none text-dark" href="#">
+    Rick and Morty Dashboard
   </div>
-  <form class="d-flex" role="search">
+  <form class="col-12 col-md-4">
     <input
       class="form-control me-2"
       type="search"
-      placeholder="Busca"
-      aria-label="Busca"
+      placeholder="Buscar"
+      aria-label="Buscar"
+      [formControl]="searchControl"
     />
-    <button class="btn btn-outline-success" type="submit">Buscar</button>
   </form>
+  <div></div>
 </header>
