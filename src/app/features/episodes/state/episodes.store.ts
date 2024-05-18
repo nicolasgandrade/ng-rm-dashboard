@@ -35,7 +35,7 @@ export class EpisodesStore extends ComponentStore<EpisodesState> {
   readonly getEpisodes$ = this.effect((searchTerm$: Observable<string>) =>
     searchTerm$.pipe(
       tap((searchTerm) =>
-        !!searchTerm ? this.filteringEpisodes() : this.gettingEpisodes(),
+        !!searchTerm.trim() ? this.filteringEpisodes() : this.gettingEpisodes(),
       ),
       exhaustMap((searchTerm) =>
         !this.state().data.info.next && this.state().currentPage !== 0

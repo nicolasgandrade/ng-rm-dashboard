@@ -8,8 +8,11 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 export class CharactesService extends HttpService {
   private readonly http = inject(HttpClient);
 
-  getCharacters(page: number): Observable<PageableResponse<Character>> {
-    const params = new HttpParams({ fromObject: { page } });
+  getCharacters(
+    page: number,
+    name = '',
+  ): Observable<PageableResponse<Character>> {
+    const params = new HttpParams({ fromObject: { page, name } });
 
     return this.http.get<PageableResponse<Character>>(
       this.getFullUrl('character'),
