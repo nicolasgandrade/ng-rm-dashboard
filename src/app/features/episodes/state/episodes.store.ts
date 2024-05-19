@@ -11,6 +11,7 @@ import { HttpErrorResponse, HttpStatusCode } from '@angular/common/http';
 interface EpisodesState {
   currentPage: number;
   filtering: boolean;
+  lastSearch: string;
   loading: boolean;
   error: boolean;
   data: PageableResponse<Episode>;
@@ -19,6 +20,7 @@ interface EpisodesState {
 const initialState: EpisodesState = {
   currentPage: 0,
   filtering: false,
+  lastSearch: '',
   loading: false,
   error: false,
   data: pageableResponseInitialState,
@@ -35,7 +37,9 @@ export class EpisodesStore extends ComponentStore<EpisodesState> {
   readonly getEpisodes$ = this.effect((searchTerm$: Observable<string>) =>
     searchTerm$.pipe(
       tap((searchTerm) =>
-        !!searchTerm.trim() ? this.filteringEpisodes() : this.gettingEpisodes(),
+        !!searchTerm.trim()
+          ? this.filteringEpisodes(searchTerm)
+          : this.gettingEpisodes(),
       ),
       exhaustMap((searchTerm) =>
         !this.state().data.info.next &&
@@ -57,13 +61,19 @@ export class EpisodesStore extends ComponentStore<EpisodesState> {
     ),
   );
 
-  private readonly filteringEpisodes = this.updater((state) => ({
-    ...state,
-    currentPage: this.state().filtering ? this.state().currentPage : 0,
-    filtering: true,
-    loading: true,
-    error: false,
-  }));
+  private readonly filteringEpisodes = this.updater(
+    (state, search: string) => ({
+      ...state,
+      currentPage:
+        this.state().filtering && this.state().lastSearch === search
+          ? this.state().currentPage
+          : 0,
+      lastSearch: search,
+      filtering: true,
+      loading: true,
+      error: false,
+    }),
+  );
   private readonly gettingEpisodes = this.updater((state) => ({
     ...state,
     currentPage: this.state().filtering ? 0 : this.state().currentPage,
@@ -96,9 +106,10 @@ export class EpisodesStore extends ComponentStore<EpisodesState> {
       currentPage: this.state().filtering ? 0 : this.state().currentPage,
       loading: false,
       error: statusCode === HttpStatusCode.NotFound ? false : true,
-      data: this.state().filtering
-        ? pageableResponseInitialState
-        : this.state().data,
+      data:
+        this.state().filtering && this.state().currentPage === 0
+          ? pageableResponseInitialState
+          : this.state().data,
     }),
   );
   private readonly getEpisodesFinished = this.updater((state) => ({

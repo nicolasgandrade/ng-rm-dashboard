@@ -11,6 +11,7 @@ import { HttpErrorResponse, HttpStatusCode } from '@angular/common/http';
 interface CharactersState {
   currentPage: number;
   filtering: boolean;
+  lastSearch: string;
   loading: boolean;
   error: boolean;
   data: PageableResponse<Character>;
@@ -19,6 +20,7 @@ interface CharactersState {
 const initialState: CharactersState = {
   currentPage: 0,
   filtering: false,
+  lastSearch: '',
   loading: false,
   error: false,
   data: pageableResponseInitialState,
@@ -36,7 +38,7 @@ export class CharactersStore extends ComponentStore<CharactersState> {
     searchTerm$.pipe(
       tap((searchTerm) =>
         !!searchTerm.trim()
-          ? this.filteringCharacters()
+          ? this.filteringCharacters(searchTerm)
           : this.gettingCharacters(),
       ),
       exhaustMap((searchTerm) =>
@@ -57,13 +59,19 @@ export class CharactersStore extends ComponentStore<CharactersState> {
     ),
   );
 
-  private readonly filteringCharacters = this.updater((state) => ({
-    ...state,
-    currentPage: this.state().filtering ? this.state().currentPage : 0,
-    filtering: true,
-    loading: true,
-    error: false,
-  }));
+  private readonly filteringCharacters = this.updater(
+    (state, search: string) => ({
+      ...state,
+      currentPage:
+        this.state().filtering && this.state().lastSearch === search
+          ? this.state().currentPage
+          : 0,
+      lastSearch: search,
+      filtering: true,
+      loading: true,
+      error: false,
+    }),
+  );
   private readonly gettingCharacters = this.updater((state) => ({
     ...state,
     currentPage: this.state().filtering ? 0 : this.state().currentPage,
@@ -96,9 +104,10 @@ export class CharactersStore extends ComponentStore<CharactersState> {
       currentPage: this.state().filtering ? 0 : this.state().currentPage,
       loading: false,
       error: statusCode === HttpStatusCode.NotFound ? false : true,
-      data: this.state().filtering
-        ? pageableResponseInitialState
-        : this.state().data,
+      data:
+        this.state().filtering && this.state().currentPage === 0
+          ? pageableResponseInitialState
+          : this.state().data,
     }),
   );
   private readonly getCharactersFinished = this.updater((state) => ({
