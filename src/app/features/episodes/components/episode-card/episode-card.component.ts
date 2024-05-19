@@ -1,4 +1,5 @@
-import { Component, input } from '@angular/core';
+import { Component, input, output } from '@angular/core';
+import { environment } from '../../../../../environments/environment';
 
 @Component({
   selector: 'app-episode-card',
@@ -8,7 +9,11 @@ import { Component, input } from '@angular/core';
   styleUrl: './episode-card.component.scss',
 })
 export class EpisodeCardComponent {
+  readonly watchUrl = environment.watchUrl;
+
   name = input<string>();
   characters = input<string[]>();
   episode = input<string>();
+
+  openDetails = output();
 }

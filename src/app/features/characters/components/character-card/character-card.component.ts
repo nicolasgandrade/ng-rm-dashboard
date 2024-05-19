@@ -1,4 +1,4 @@
-import { Component, input } from '@angular/core';
+import { Component, input, output } from '@angular/core';
 import { Character } from '../../models/character.model';
 import { GenderPipe } from '../../pipes/gender.pipe';
 import { StatusPipe } from '../../pipes/status.pipe';
@@ -13,4 +13,6 @@ import { GenderAbbrPipe } from '../../pipes/gender-abbr.pipe';
 })
 export class CharacterCardComponent {
   character = input<Character>();
+
+  openDetails = output();
 }
