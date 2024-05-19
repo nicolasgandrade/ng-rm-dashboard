@@ -1,27 +1,41 @@
 # NgRmDashboard
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 17.3.7.
+Esse projeto foi gerado com [Angular CLI](https://github.com/angular/angular-cli) na versão 17.3.7.
 
-## Development server
+## Resumo
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+Esse é um projeto experimental em Angular 17 que consome a [Rick and Morty API](https://rickandmortyapi.com/), e lista os dados recebidos em 2 listas: 1 de episódios, outra de personagens.
+Ambas as listas são paginadas com scroll infinito e reagem a uma barra de busca global, localizada no header do dashboard.
+Ao clicar em um card (tanto de episódio quanto de personagem), um modal com mais detalhes sobre a entidade é aberto.
 
-## Code scaffolding
+Nesse projeto mesclei conceitos mais consolidados do Angular, assim como conceitos mais novos como `signals`, `standalone components`, `input()` e `output()` functions, novo sintaxe de fluxo de controle, etc.
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+Para facilitar o gerenciamento de estado, utilizei a biblioteca `ngrx-component-store`, que provê uma abordagem de gerenciamento standalone. Entretanto, no service `global-search.service.ts`, por se tratar de um serviço simples, fiz o gerenciamento de estado utilizando `signals`.
 
-## Build
+## Servidor de Desenvolvimento (localhost)
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+Para rodar a aplicação, clone o repositório e na raíz do projeto rode:
 
-## Running unit tests
+```bash
+$ npm install
+-
+$ npm start
+```
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+Quando iniciado, abra a aplicação em `http://localhost:4200/w/episodes`.
 
-## Running end-to-end tests
+### Funcionalidades
 
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
+Lista de episódios: `http://localhost:4200/w/episodes`
 
-## Further help
+Lista de personagens: `http://localhost:4200/w/characters`
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+## Tecnologias
+
+Para o desenvolvimento desse projeto, foram utilizadas as seguintes tecnologias:
+
+1. Angular (17.3.0)
+2. Bootstrap 5 / NgBootstrap (16.0.0)
+3. NgRx Component Store (17.2.0)
+4. Ngx Infinite Scroll (17.0.0)
+5. RxJS (7.8)
