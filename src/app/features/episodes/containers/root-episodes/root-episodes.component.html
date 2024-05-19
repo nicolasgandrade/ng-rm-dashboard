@@ -24,6 +24,7 @@
           [name]="item.name"
           [episode]="item.episode"
           [characters]="item.characters"
+          (openDetails)="openDetails(item)"
         />
       }
     </app-list>

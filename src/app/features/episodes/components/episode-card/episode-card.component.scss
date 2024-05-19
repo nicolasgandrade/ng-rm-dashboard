@@ -1,0 +1,15 @@
+.scale:hover {
+  scale: 1.005;
+}
+
+a {
+  img {
+    opacity: 0;
+  }
+
+  &:hover {
+    img {
+      opacity: 0.25;
+    }
+  }
+}

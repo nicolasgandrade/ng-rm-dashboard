@@ -1,20 +1,32 @@
-<div class="card mb-3 w-100">
+<div
+  class="card mb-3 w-100 transition scale"
+  role="button"
+  (click)="openDetails.emit()"
+>
   <div class="row g-0">
-    <div class="col-md-4 border-end">
-      <img
-        src="/assets/images/logo.png"
-        class="rounded-start object-fit-cover w-100 h-100"
-        style="max-height: 200px"
-        alt="..."
-      />
-    </div>
-    <div class="col-md-8">
+    <a
+      class="col-2 border-end position-relative"
+      [href]="watchUrl"
+      target="_blank"
+      (click)="$event.stopPropagation()"
+    >
+      <div class="bg-dark w-100 h-100 rounded-start">
+        <img
+          src="/assets/images/logo.png"
+          class="w-100 h-100 object-fit-cover rounded-start transition"
+        />
+      </div>
+      <i
+        class="bi bi-play-fill position-absolute h1 top-50 translate-middle start-50 text-white"
+      ></i>
+    </a>
+    <div class="col-10">
       <div class="card-body">
         <h5 class="card-title">{{ name() }}</h5>
         <p class="card-text">
           O episódio
           <q class="fst-italic">{{ name() }}</q>
-          , lançado em tal tal tal, conta com a presença de
+          , conta com a presença de
           {{ characters()?.length }} personagens do universo de Rick and Morty.
         </p>
         <p class="card-text">

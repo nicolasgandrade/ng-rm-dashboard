@@ -1,0 +1,43 @@
+<app-modal>
+  <ng-container header>
+    <h5 class="modal-title">{{ data.episode.name }}</h5>
+    <button
+      type="button"
+      class="btn-close"
+      aria-label="Fechar"
+      (click)="close()"
+    ></button>
+  </ng-container>
+  <ng-container body>
+    <h6>
+      Veja os detalhes do episódio
+      <q class="fst-italic">{{ data.episode.name }}</q
+      >:
+    </h6>
+
+    <div class="mt-3">
+      <div>
+        <span class="fw-bold">ID:</span>
+        {{ data.episode.id }}
+      </div>
+      <div>
+        <span class="fw-bold">Episódio:</span>
+        {{ data.episode.episode }}
+      </div>
+      <div>
+        <span class="fw-bold">Quantidade de personagens:</span>
+        {{ data.episode.characters.length }}
+      </div>
+      <div>
+        <span class="fw-bold">Lançamento:</span>
+        {{ data.episode.air_date | date: "longDate" : "" : "pt-BR" }}
+      </div>
+    </div>
+  </ng-container>
+  <ng-container footer>
+    <button type="button" class="btn btn-secondary" (click)="close()">
+      Fechar
+    </button>
+    <a class="btn btn-primary" [href]="watchUrl" target="_blank"> Assistir </a>
+  </ng-container>
+</app-modal>
