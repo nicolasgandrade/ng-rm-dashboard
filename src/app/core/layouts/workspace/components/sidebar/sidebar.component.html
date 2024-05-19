@@ -1,13 +1,19 @@
-<aside class="p-3 bg-light-subtle border-end">
+<aside
+  class="bg-light-subtle border-end"
+  [class.sidebar-full-size]="!isCollapsed()"
+  [ngClass]="isCollapsed() ? 'p-1' : 'p-3'"
+>
   <ul class="d-flex flex-column gap-2 list-unstyled">
     @for (config of sidebarConfig; track config.path) {
-      <li>
+      <li [class.menu-item-active]="false">
         <button
           class="d-flex gap-2 align-items-center rounded transition px-3 py-2 w-100 text-start menu-item"
           (click)="menuItemClicked.emit(config.path)"
         >
           <i [class]="config.icon"></i>
-          {{ config.title }}
+          @if (!isCollapsed()) {
+            <span>{{ config.title }}</span>
+          }
         </button>
       </li>
     }
